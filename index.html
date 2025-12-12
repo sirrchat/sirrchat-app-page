@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sirr - Private Messaging Over Email</title>
+  <meta name="description" content="Sirr is a decentralized and secure messaging app that works over email. End-to-end encrypted, no phone number required.">
+  <meta property="og:title" content="Sirr - Private Messaging Over Email">
+  <meta property="og:description" content="A decentralized and secure messenger app with blockchain authentication and multi-device support.">
+  <meta property="og:image" content="assets/social.png">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/svg+xml" href="assets/identity.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-primary-1: #8D9194;
+      --color-primary-2: #4B4E52;
+      --color-primary-3: #1C1C1E;
+      --color-accent: #5B8DEF;
+      --color-accent-hover: #4A7BD9;
+      --color-text: #1C1C1E;
+      --color-text-light: #6B7280;
+      --color-bg: #FFFFFF;
+      --color-bg-alt: #F9FAFB;
+      --gradient-primary: linear-gradient(135deg, var(--color-primary-1) 0%, var(--color-primary-2) 50%, var(--color-primary-3) 100%);
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--color-text);
+      line-height: 1.6;
+      background: var(--color-bg);
+    }
+
+    /* Navigation */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--color-text);
+    }
+
+    .nav-logo img {
+      width: 36px;
+      height: 36px;
+    }
+
+    .nav-logo span {
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--color-text-light);
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--color-text);
+    }
+
+    .nav-cta {
+      background: var(--gradient-primary);
+      color: white !important;
+      padding: 0.5rem 1.25rem;
+      border-radius: var(--radius-lg);
+      font-weight: 600 !important;
+    }
+
+    .nav-cta:hover {
+      opacity: 0.9;
+    }
+
+    .nav-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    .nav-menu-btn svg {
+      width: 24px;
+      height: 24px;
+      stroke: var(--color-text);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 6rem 2rem 4rem;
+      background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-alt) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -25%;
+      width: 80%;
+      height: 150%;
+      background: radial-gradient(ellipse, rgba(91, 141, 239, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(91, 141, 239, 0.1);
+      color: var(--color-accent);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-lg);
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: var(--color-text-light);
+      margin-bottom: 2rem;
+      max-width: 500px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 1.75rem;
+      border-radius: var(--radius-lg);
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--gradient-primary);
+      color: white;
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-secondary {
+      background: var(--color-bg);
+      color: var(--color-text);
+      border: 2px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--color-primary-2);
+    }
+
+    .hero-visual {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-app-screenshot {
+      max-width: 100%;
+      max-height: 600px;
+      width: auto;
+      height: auto;
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Features Section */
+    .features {
+      padding: 6rem 2rem;
+      background: var(--color-bg);
+    }
+
+    .section-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .section-subtitle {
+      font-size: 1.125rem;
+      color: var(--color-text-light);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: var(--color-bg-alt);
+      padding: 2rem;
+      border-radius: var(--radius-lg);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--gradient-primary);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      font-size: 1.5rem;
+    }
+
+    .feature-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    .feature-desc {
+      color: var(--color-text-light);
+      font-size: 0.95rem;
+    }
+
+    /* How It Works */
+    .how-it-works {
+      padding: 6rem 2rem;
+      background: var(--color-bg-alt);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .step {
+      text-align: center;
+      position: relative;
+    }
+
+    .step-number {
+      width: 56px;
+      height: 56px;
+      background: var(--gradient-primary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0 auto 1.5rem;
+    }
+
+    .step-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    .step-desc {
+      color: var(--color-text-light);
+      font-size: 0.95rem;
+    }
+
+    /* Download Section */
+    .download {
+      padding: 6rem 2rem;
+      background: var(--gradient-primary);
+      color: white;
+      text-align: center;
+    }
+
+    .download .section-title {
+      color: white;
+    }
+
+    .download .section-subtitle {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .download-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: white;
+      color: var(--color-text);
+      padding: 1rem 1.75rem;
+      border-radius: var(--radius-lg);
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .download-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .download-btn svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .download-btn-text {
+      text-align: left;
+    }
+
+    .download-btn-text small {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--color-text-light);
+      font-weight: 400;
+    }
+
+    .download-btn-text span {
+      font-size: 1.125rem;
+    }
+
+    /* FAQ Section */
+    .faq {
+      padding: 6rem 2rem;
+      background: var(--color-bg);
+    }
+
+    .faq-list {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 1.5rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      font-size: 1.125rem;
+      font-weight: 600;
+      text-align: left;
+      color: var(--color-text);
+    }
+
+    .faq-question svg {
+      width: 24px;
+      height: 24px;
+      transition: transform 0.2s;
+    }
+
+    .faq-item.active .faq-question svg {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 500px;
+    }
+
+    .faq-answer p {
+      padding-bottom: 1.5rem;
+      color: var(--color-text-light);
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--color-primary-3);
+      color: white;
+      padding: 4rem 2rem 2rem;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .footer-brand img {
+      width: 40px;
+      height: 40px;
+    }
+
+    .footer-brand span {
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .footer-desc {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.95rem;
+      max-width: 300px;
+    }
+
+    .footer-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: white;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-copyright {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.875rem;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .footer-social a {
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .footer-social a:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .footer-social svg {
+      width: 20px;
+      height: 20px;
+      fill: white;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .hero-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero-content {
+        order: 1;
+      }
+
+      .hero-visual {
+        order: 0;
+        margin-bottom: 2rem;
+      }
+
+      .hero-subtitle {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero-buttons {
+        justify-content: center;
+      }
+
+      .hero-app-screenshot {
+        max-height: 480px;
+      }
+
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .steps {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .nav-menu-btn {
+        display: block;
+      }
+
+      .hero {
+        padding-top: 5rem;
+      }
+
+      .hero-title {
+        font-size: 2.5rem;
+      }
+
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .footer-desc {
+        margin: 0 auto;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    /* Mobile Nav Menu */
+    .nav-mobile {
+      display: none;
+      position: fixed;
+      top: 68px;
+      left: 0;
+      right: 0;
+      background: white;
+      padding: 1rem;
+      box-shadow: var(--shadow-lg);
+      z-index: 999;
+    }
+
+    .nav-mobile.active {
+      display: block;
+    }
+
+    .nav-mobile a {
+      display: block;
+      padding: 0.75rem 1rem;
+      color: var(--color-text);
+      text-decoration: none;
+      font-weight: 500;
+      border-radius: var(--radius-sm);
+    }
+
+    .nav-mobile a:hover {
+      background: var(--color-bg-alt);
+    }
+
+    /* Language Switcher */
+    .lang-switcher {
+      position: relative;
+      margin-left: 1rem;
+    }
+
+    .lang-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--color-bg-alt);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      padding: 0.5rem 0.75rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--color-text);
+      transition: all 0.2s;
+    }
+
+    .lang-btn:hover {
+      border-color: var(--color-primary-2);
+    }
+
+    .lang-btn svg {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.2s;
+    }
+
+    .lang-switcher.active .lang-btn svg {
+      transform: rotate(180deg);
+    }
+
+    .lang-dropdown {
+      position: absolute;
+      top: calc(100% + 0.5rem);
+      right: 0;
+      background: white;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      min-width: 140px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.2s;
+      z-index: 100;
+      overflow: hidden;
+    }
+
+    .lang-switcher.active .lang-dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .lang-option {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-size: 0.875rem;
+    }
+
+    .lang-option:hover {
+      background: var(--color-bg-alt);
+    }
+
+    .lang-option.active {
+      background: var(--color-bg-alt);
+      font-weight: 600;
+    }
+
+    .lang-flag {
+      font-size: 1.25rem;
+    }
+
+    @media (max-width: 768px) {
+      .lang-switcher {
+        margin-left: 0;
+        margin-right: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="#" class="nav-logo">
+        <img src="assets/identity.svg" alt="Sirr Logo">
+        <span>Sirr</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#features" data-i18n="nav.features">Features</a></li>
+        <li><a href="#how-it-works" data-i18n="nav.howItWorks">How It Works</a></li>
+        <li><a href="#faq" data-i18n="nav.faq">FAQ</a></li>
+        <li><a href="#download" class="nav-cta" data-i18n="nav.download">Download</a></li>
+      </ul>
+      <div class="lang-switcher" id="langSwitcher">
+        <button class="lang-btn" onclick="toggleLangDropdown()">
+          <span class="lang-current-flag">🇺🇸</span>
+          <span class="lang-current-name">EN</span>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+          </svg>
+        </button>
+        <div class="lang-dropdown">
+          <div class="lang-option active" data-lang="en" onclick="setLanguage('en')">
+            <span class="lang-flag">🇺🇸</span>
+            <span>English</span>
+          </div>
+          <div class="lang-option" data-lang="zh" onclick="setLanguage('zh')">
+            <span class="lang-flag">🇨🇳</span>
+            <span>中文</span>
+          </div>
+          <div class="lang-option" data-lang="ja" onclick="setLanguage('ja')">
+            <span class="lang-flag">🇯🇵</span>
+            <span>日本語</span>
+          </div>
+          <div class="lang-option" data-lang="ko" onclick="setLanguage('ko')">
+            <span class="lang-flag">🇰🇷</span>
+            <span>한국어</span>
+          </div>
+        </div>
+      </div>
+      <button class="nav-menu-btn" onclick="toggleMobileNav()">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+      </button>
+    </div>
+    <div class="nav-mobile" id="mobileNav">
+      <a href="#features" onclick="toggleMobileNav()" data-i18n="nav.features">Features</a>
+      <a href="#how-it-works" onclick="toggleMobileNav()" data-i18n="nav.howItWorks">How It Works</a>
+      <a href="#faq" onclick="toggleMobileNav()" data-i18n="nav.faq">FAQ</a>
+      <a href="#download" onclick="toggleMobileNav()" data-i18n="nav.download">Download</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          <span data-i18n="hero.badge">End-to-End Encrypted</span>
+        </div>
+        <h1 class="hero-title" data-i18n="hero.title">Private Messaging with Built-in Wallet</h1>
+        <p class="hero-subtitle" data-i18n="hero.subtitle">
+          Sirr is a decentralized messenger with BSC wallet integration.
+          Your wallet address is your account. Send messages, transfer tokens, and share red packets.
+        </p>
+        <div class="hero-buttons">
+          <a href="#download" class="btn btn-primary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <span data-i18n="hero.downloadBtn">Download Now</span>
+          </a>
+          <a href="#how-it-works" class="btn btn-secondary" data-i18n="hero.learnMoreBtn">
+            Learn More
+          </a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <img src="assets/app_frame.png" alt="Sirr App Screenshot" class="hero-app-screenshot">
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features" id="features">
+    <div class="section-container">
+      <div class="section-header">
+        <h2 class="section-title" data-i18n="features.title">Why Choose Sirr?</h2>
+        <p class="section-subtitle" data-i18n="features.subtitle">
+          Built on open standards with privacy at its core. Sirr combines the reliability of email with modern messaging features.
+        </p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">👛</div>
+          <h3 class="feature-title" data-i18n="features.wallet.title">Decentralized Account</h3>
+          <p class="feature-desc" data-i18n="features.wallet.desc">
+            Your BSC wallet address is your account. No registration, no passwords. True ownership of your identity.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💰</div>
+          <h3 class="feature-title" data-i18n="features.bsc.title">Built-in BSC Wallet</h3>
+          <p class="feature-desc" data-i18n="features.bsc.desc">
+            Manage your BNB and BEP-20 tokens directly in the app. Send, receive, and track your assets seamlessly.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🧧</div>
+          <h3 class="feature-title" data-i18n="features.redpacket.title">Red Packets</h3>
+          <p class="feature-desc" data-i18n="features.redpacket.desc">
+            Share crypto red packets in chats. Perfect for celebrations, tips, and community engagement.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💸</div>
+          <h3 class="feature-title" data-i18n="features.transfer.title">Instant Transfers</h3>
+          <p class="feature-desc" data-i18n="features.transfer.desc">
+            Send tokens to any contact with just a tap. Fast, secure, and low-fee transactions on BSC.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔐</div>
+          <h3 class="feature-title" data-i18n="features.encryption.title">End-to-End Encryption</h3>
+          <p class="feature-desc" data-i18n="features.encryption.desc">
+            All messages are encrypted using OpenPGP. Only you and your recipient can read your messages.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📧</div>
+          <h3 class="feature-title" data-i18n="features.email.title">Works Over Email</h3>
+          <p class="feature-desc" data-i18n="features.email.desc">
+            Built on email protocol. No central servers, fully decentralized communication infrastructure.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📱</div>
+          <h3 class="feature-title" data-i18n="features.multidevice.title">Multi-Device Support</h3>
+          <p class="feature-desc" data-i18n="features.multidevice.desc">
+            Access your conversations and wallet on Android, iOS, Desktop. Everything syncs automatically.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💻</div>
+          <h3 class="feature-title" data-i18n="features.opensource.title">Open Source</h3>
+          <p class="feature-desc" data-i18n="features.opensource.desc">
+            Fully auditable code. Verify the security yourself or trust the community that has reviewed it.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="how-it-works" id="how-it-works">
+    <div class="section-container">
+      <div class="section-header">
+        <h2 class="section-title" data-i18n="howItWorks.title">How It Works</h2>
+        <p class="section-subtitle" data-i18n="howItWorks.subtitle">
+          Get started in minutes. No registration, no phone number - just your wallet.
+        </p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3 class="step-title" data-i18n="howItWorks.step1.title">Download the App</h3>
+          <p class="step-desc" data-i18n="howItWorks.step1.desc">
+            Install Sirr on your preferred device - Android, iOS, or Desktop.
+          </p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3 class="step-title" data-i18n="howItWorks.step2.title">Create or Import Wallet</h3>
+          <p class="step-desc" data-i18n="howItWorks.step2.desc">
+            Generate a new BSC wallet or import existing one. Your wallet address becomes your account.
+          </p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3 class="step-title" data-i18n="howItWorks.step3.title">Chat & Transact</h3>
+          <p class="step-desc" data-i18n="howItWorks.step3.desc">
+            Send encrypted messages, transfer tokens, and share red packets with friends.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download Section -->
+  <section class="download" id="download">
+    <div class="section-container">
+      <h2 class="section-title" data-i18n="download.title">Get Sirr Now</h2>
+      <p class="section-subtitle" data-i18n="download.subtitle">
+        Available on all major platforms. Start messaging privately today.
+      </p>
+      <div class="download-buttons">
+        <a href="https://s.mailcoin.org" class="download-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
+          </svg>
+          <div class="download-btn-text">
+            <small>Download on the</small>
+            <span>App Store</span>
+          </div>
+        </a>
+        <a href="https://s.mailcoin.org" class="download-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.807 1.626a1 1 0 0 1 0 1.73l-2.808 1.626L15.206 12l2.492-2.491zM5.864 2.658L16.802 8.99l-2.303 2.303-8.635-8.635z"/>
+          </svg>
+          <div class="download-btn-text">
+            <small>Get it on</small>
+            <span>Google Play</span>
+          </div>
+        </a>
+        <a href="https://s.mailcoin.org" class="download-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/>
+          </svg>
+          <div class="download-btn-text">
+            <small>Download for</small>
+            <span>Windows</span>
+          </div>
+        </a>
+        <a href="https://s.mailcoin.org" class="download-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+          </svg>
+          <div class="download-btn-text">
+            <small>Download for</small>
+            <span>macOS / Linux</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq" id="faq">
+    <div class="section-container">
+      <div class="section-header">
+        <h2 class="section-title" data-i18n="faq.title">Frequently Asked Questions</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span data-i18n="faq.q1.question">How does the decentralized account work?</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p data-i18n="faq.q1.answer">Your BSC wallet address serves as your account. No registration required - just connect your wallet or create a new one. You have complete ownership of your identity, secured by your private key.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span data-i18n="faq.q2.question">What can I do with the built-in wallet?</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p data-i18n="faq.q2.answer">The built-in BSC wallet lets you manage BNB and BEP-20 tokens, send instant transfers to contacts, create and claim red packets, and view transaction history - all without leaving the app.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span data-i18n="faq.q3.question">How do red packets work?</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p data-i18n="faq.q3.answer">Red packets let you share crypto with friends in chats. Create a red packet with BNB or tokens, send it to a chat, and recipients can tap to claim. Great for celebrations, tips, or community rewards.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span data-i18n="faq.q4.question">Are my messages and transactions secure?</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p data-i18n="faq.q4.answer">Yes! Messages are end-to-end encrypted using OpenPGP. Wallet transactions are secured by BSC blockchain. Your private keys never leave your device, giving you full control.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span data-i18n="faq.q5.question">What tokens are supported?</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p data-i18n="faq.q5.answer">Sirr supports BNB (native token) and all BEP-20 tokens on BSC, including USDT, USDC, BUSD, and many others. You can add any custom BEP-20 token by its contract address.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">
+            <img src="assets/identity.svg" alt="Sirr Logo">
+            <span>Sirr</span>
+          </div>
+          <p class="footer-desc" data-i18n="footer.desc">
+            A decentralized and secure messenger app that works over email. Private by design.
+          </p>
+        </div>
+        <div>
+          <h4 class="footer-title" data-i18n="footer.product">Product</h4>
+          <ul class="footer-links">
+            <li><a href="#features" data-i18n="nav.features">Features</a></li>
+            <li><a href="#download" data-i18n="nav.download">Download</a></li>
+            <li><a href="#faq" data-i18n="nav.faq">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-title" data-i18n="footer.resources">Resources</h4>
+          <ul class="footer-links">
+            <li><a href="#" data-i18n="footer.documentation">Documentation</a></li>
+            <li><a href="#" data-i18n="footer.blog">Blog</a></li>
+            <li><a href="#" data-i18n="footer.support">Support</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-title" data-i18n="footer.legal">Legal</h4>
+          <ul class="footer-links">
+            <li><a href="#" data-i18n="footer.privacy">Privacy Policy</a></li>
+            <li><a href="#" data-i18n="footer.terms">Terms of Service</a></li>
+            <li><a href="#" data-i18n="footer.openSource">Open Source</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">© 2024 Sirr. Open source software.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="GitHub">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="Twitter">
+            <svg viewBox="0 0 24 24">
+              <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Translations
+    const translations = {
+      en: {
+        nav: { features: 'Features', howItWorks: 'How It Works', faq: 'FAQ', download: 'Download' },
+        hero: {
+          badge: 'End-to-End Encrypted',
+          title: 'Private Messaging with Built-in Wallet',
+          subtitle: 'Sirr is a decentralized messenger with BSC wallet integration. Your wallet address is your account. Send messages, transfer tokens, and share red packets.',
+          downloadBtn: 'Download Now',
+          learnMoreBtn: 'Learn More'
+        },
+        features: {
+          title: 'Why Choose Sirr?',
+          subtitle: 'Built on open standards with privacy at its core. Sirr combines the reliability of email with modern messaging features.',
+          wallet: { title: 'Decentralized Account', desc: 'Your BSC wallet address is your account. No registration, no passwords. True ownership of your identity.' },
+          bsc: { title: 'Built-in BSC Wallet', desc: 'Manage your BNB and BEP-20 tokens directly in the app. Send, receive, and track your assets seamlessly.' },
+          redpacket: { title: 'Red Packets', desc: 'Share crypto red packets in chats. Perfect for celebrations, tips, and community engagement.' },
+          transfer: { title: 'Instant Transfers', desc: 'Send tokens to any contact with just a tap. Fast, secure, and low-fee transactions on BSC.' },
+          encryption: { title: 'End-to-End Encryption', desc: 'All messages are encrypted using OpenPGP. Only you and your recipient can read your messages.' },
+          email: { title: 'Works Over Email', desc: 'Built on email protocol. No central servers, fully decentralized communication infrastructure.' },
+          multidevice: { title: 'Multi-Device Support', desc: 'Access your conversations and wallet on Android, iOS, Desktop. Everything syncs automatically.' },
+          opensource: { title: 'Open Source', desc: 'Fully auditable code. Verify the security yourself or trust the community that has reviewed it.' }
+        },
+        howItWorks: {
+          title: 'How It Works',
+          subtitle: 'Get started in minutes. No registration, no phone number - just your wallet.',
+          step1: { title: 'Download the App', desc: 'Install Sirr on your preferred device - Android, iOS, or Desktop.' },
+          step2: { title: 'Create or Import Wallet', desc: 'Generate a new BSC wallet or import existing one. Your wallet address becomes your account.' },
+          step3: { title: 'Chat & Transact', desc: 'Send encrypted messages, transfer tokens, and share red packets with friends.' }
+        },
+        download: { title: 'Get Sirr Now', subtitle: 'Available on all major platforms. Start messaging privately today.' },
+        faq: {
+          title: 'Frequently Asked Questions',
+          q1: { question: 'How does the decentralized account work?', answer: 'Your BSC wallet address serves as your account. No registration required - just connect your wallet or create a new one. You have complete ownership of your identity, secured by your private key.' },
+          q2: { question: 'What can I do with the built-in wallet?', answer: 'The built-in BSC wallet lets you manage BNB and BEP-20 tokens, send instant transfers to contacts, create and claim red packets, and view transaction history - all without leaving the app.' },
+          q3: { question: 'How do red packets work?', answer: 'Red packets let you share crypto with friends in chats. Create a red packet with BNB or tokens, send it to a chat, and recipients can tap to claim. Great for celebrations, tips, or community rewards.' },
+          q4: { question: 'Are my messages and transactions secure?', answer: 'Yes! Messages are end-to-end encrypted using OpenPGP. Wallet transactions are secured by BSC blockchain. Your private keys never leave your device, giving you full control.' },
+          q5: { question: 'What tokens are supported?', answer: 'Sirr supports BNB (native token) and all BEP-20 tokens on BSC, including USDT, USDC, BUSD, and many others. You can add any custom BEP-20 token by its contract address.' }
+        },
+        footer: { desc: 'A decentralized and secure messenger app that works over email. Private by design.', product: 'Product', resources: 'Resources', legal: 'Legal', documentation: 'Documentation', blog: 'Blog', support: 'Support', privacy: 'Privacy Policy', terms: 'Terms of Service', openSource: 'Open Source' }
+      },
+      zh: {
+        nav: { features: '功能特性', howItWorks: '使用方法', faq: '常见问题', download: '下载' },
+        hero: {
+          badge: '端到端加密',
+          title: '内置钱包的私密通讯',
+          subtitle: 'Sirr 是一款集成 BSC 钱包的去中心化通讯应用。钱包地址即账户，发送消息、转账代币、分享红包。',
+          downloadBtn: '立即下载',
+          learnMoreBtn: '了解更多'
+        },
+        features: {
+          title: '为什么选择 Sirr？',
+          subtitle: '基于开放标准构建，隐私至上。Sirr 将邮件协议的可靠性与现代通讯功能相结合。',
+          wallet: { title: '去中心化账户', desc: 'BSC 钱包地址即账户，无需注册，无需密码，真正拥有您的身份。' },
+          bsc: { title: '内置 BSC 钱包', desc: '直接在应用内管理 BNB 和 BEP-20 代币，无缝发送、接收和追踪您的资产。' },
+          redpacket: { title: '加密红包', desc: '在聊天中分享加密红包，适合庆祝、打赏和社区互动。' },
+          transfer: { title: '即时转账', desc: '一键向联系人发送代币，BSC 上快速、安全、低手续费的交易。' },
+          encryption: { title: '端到端加密', desc: '所有消息使用 OpenPGP 加密，只有您和收件人可以阅读。' },
+          email: { title: '基于邮件协议', desc: '构建于邮件协议之上，无中心服务器，完全去中心化的通信基础设施。' },
+          multidevice: { title: '多设备支持', desc: '在 Android、iOS、桌面端访问您的对话和钱包，一切自动同步。' },
+          opensource: { title: '开源透明', desc: '代码完全可审计，您可以自行验证安全性或信任社区的审核。' }
+        },
+        howItWorks: {
+          title: '使用方法',
+          subtitle: '几分钟即可开始，无需注册，无需手机号，只需钱包。',
+          step1: { title: '下载应用', desc: '在您的设备上安装 Sirr - Android、iOS 或桌面端。' },
+          step2: { title: '创建或导入钱包', desc: '生成新的 BSC 钱包或导入现有钱包，钱包地址即成为您的账户。' },
+          step3: { title: '聊天与交易', desc: '发送加密消息、转账代币、与好友分享红包。' }
+        },
+        download: { title: '立即获取 Sirr', subtitle: '支持所有主流平台，现在开始私密通讯。' },
+        faq: {
+          title: '常见问题',
+          q1: { question: '去中心化账户如何工作？', answer: 'BSC 钱包地址即账户，无需注册，只需连接钱包或创建新钱包。您完全拥有自己的身份，由私钥保护。' },
+          q2: { question: '内置钱包能做什么？', answer: '内置 BSC 钱包可以管理 BNB 和 BEP-20 代币、向联系人即时转账、创建和领取红包、查看交易历史，无需离开应用。' },
+          q3: { question: '红包如何使用？', answer: '红包可以在聊天中与好友分享加密货币。使用 BNB 或代币创建红包，发送到聊天，收件人点击即可领取。适合庆祝、打赏或社区奖励。' },
+          q4: { question: '消息和交易安全吗？', answer: '是的！消息使用 OpenPGP 端到端加密，钱包交易由 BSC 区块链保护。私钥永不离开您的设备，您拥有完全控制权。' },
+          q5: { question: '支持哪些代币？', answer: 'Sirr 支持 BNB（原生代币）和 BSC 上所有 BEP-20 代币，包括 USDT、USDC、BUSD 等。您可以通过合约地址添加任何自定义 BEP-20 代币。' }
+        },
+        footer: { desc: '基于邮件协议的去中心化安全通讯应用，隐私至上。', product: '产品', resources: '资源', legal: '法律', documentation: '文档', blog: '博客', support: '支持', privacy: '隐私政策', terms: '服务条款', openSource: '开源' }
+      },
+      ja: {
+        nav: { features: '機能', howItWorks: '使い方', faq: 'よくある質問', download: 'ダウンロード' },
+        hero: {
+          badge: 'エンドツーエンド暗号化',
+          title: 'ウォレット内蔵のプライベートメッセージング',
+          subtitle: 'Sirrは BSC ウォレット統合の分散型メッセンジャーです。ウォレットアドレスがアカウント。メッセージ送信、トークン転送、紅包シェア。',
+          downloadBtn: '今すぐダウンロード',
+          learnMoreBtn: '詳しく見る'
+        },
+        features: {
+          title: 'なぜ Sirr を選ぶ？',
+          subtitle: 'プライバシーを核としたオープンスタンダードで構築。Sirr はメールの信頼性と現代的なメッセージング機能を組み合わせます。',
+          wallet: { title: '分散型アカウント', desc: 'BSC ウォレットアドレスがアカウント。登録不要、パスワード不要。真のアイデンティティ所有権。' },
+          bsc: { title: '内蔵 BSC ウォレット', desc: 'アプリ内で BNB と BEP-20 トークンを直接管理。シームレスに送受信、資産を追跡。' },
+          redpacket: { title: '紅包（レッドパケット）', desc: 'チャットで暗号紅包をシェア。お祝い、チップ、コミュニティエンゲージメントに最適。' },
+          transfer: { title: '即時転送', desc: 'ワンタップで連絡先にトークンを送信。BSC 上の高速、安全、低手数料取引。' },
+          encryption: { title: 'エンドツーエンド暗号化', desc: 'すべてのメッセージは OpenPGP で暗号化。あなたと受信者だけが読めます。' },
+          email: { title: 'メールベース', desc: 'メールプロトコル上に構築。中央サーバーなし、完全に分散化された通信インフラ。' },
+          multidevice: { title: 'マルチデバイス対応', desc: 'Android、iOS、デスクトップで会話とウォレットにアクセス。すべて自動同期。' },
+          opensource: { title: 'オープンソース', desc: '完全に監査可能なコード。自分でセキュリティを検証、またはコミュニティのレビューを信頼。' }
+        },
+        howItWorks: {
+          title: '使い方',
+          subtitle: '数分で開始。登録不要、電話番号不要、ウォレットだけ。',
+          step1: { title: 'アプリをダウンロード', desc: 'お好みのデバイスに Sirr をインストール - Android、iOS、またはデスクトップ。' },
+          step2: { title: 'ウォレットを作成または インポート', desc: '新しい BSC ウォレットを生成、または既存のものをインポート。ウォレットアドレスがアカウントになります。' },
+          step3: { title: 'チャット＆取引', desc: '暗号化メッセージを送信、トークンを転送、友達と紅包をシェア。' }
+        },
+        download: { title: 'Sirr を入手', subtitle: 'すべての主要プラットフォームで利用可能。今日からプライベートなメッセージングを。' },
+        faq: {
+          title: 'よくある質問',
+          q1: { question: '分散型アカウントの仕組みは？', answer: 'BSC ウォレットアドレスがアカウントです。登録不要、ウォレットを接続するか新規作成するだけ。秘密鍵で保護された完全なアイデンティティ所有権。' },
+          q2: { question: '内蔵ウォレットで何ができる？', answer: '内蔵 BSC ウォレットで BNB と BEP-20 トークンの管理、連絡先への即時転送、紅包の作成と請求、取引履歴の表示が可能。すべてアプリ内で。' },
+          q3: { question: '紅包の使い方は？', answer: '紅包でチャット内の友達と暗号通貨をシェア。BNB またはトークンで紅包を作成、チャットに送信、受信者はタップで請求。お祝いやチップに最適。' },
+          q4: { question: 'メッセージと取引は安全？', answer: 'はい！メッセージは OpenPGP でエンドツーエンド暗号化。ウォレット取引は BSC ブロックチェーンで保護。秘密鍵はデバイスから離れず、完全な制御権を保持。' },
+          q5: { question: '対応トークンは？', answer: 'Sirr は BNB（ネイティブトークン）と BSC 上のすべての BEP-20 トークンをサポート。USDT、USDC、BUSD など。コントラクトアドレスでカスタム BEP-20 トークンも追加可能。' }
+        },
+        footer: { desc: 'メールベースの分散型セキュアメッセンジャー。プライバシー重視の設計。', product: '製品', resources: 'リソース', legal: '法的情報', documentation: 'ドキュメント', blog: 'ブログ', support: 'サポート', privacy: 'プライバシーポリシー', terms: '利用規約', openSource: 'オープンソース' }
+      },
+      ko: {
+        nav: { features: '기능', howItWorks: '사용 방법', faq: '자주 묻는 질문', download: '다운로드' },
+        hero: {
+          badge: '종단간 암호화',
+          title: '지갑 내장 프라이빗 메시징',
+          subtitle: 'Sirr은 BSC 지갑이 통합된 탈중앙화 메신저입니다. 지갑 주소가 계정입니다. 메시지 전송, 토큰 전송, 홍바오 공유.',
+          downloadBtn: '지금 다운로드',
+          learnMoreBtn: '자세히 보기'
+        },
+        features: {
+          title: '왜 Sirr인가?',
+          subtitle: '프라이버시를 핵심으로 한 오픈 표준 기반. Sirr은 이메일의 신뢰성과 현대적인 메시징 기능을 결합합니다.',
+          wallet: { title: '탈중앙화 계정', desc: 'BSC 지갑 주소가 계정입니다. 가입 불필요, 비밀번호 불필요. 진정한 신원 소유권.' },
+          bsc: { title: '내장 BSC 지갑', desc: '앱 내에서 BNB와 BEP-20 토큰을 직접 관리. 원활하게 전송, 수신, 자산 추적.' },
+          redpacket: { title: '홍바오', desc: '채팅에서 암호화폐 홍바오를 공유. 축하, 팁, 커뮤니티 참여에 완벽.' },
+          transfer: { title: '즉시 전송', desc: '한 번의 탭으로 연락처에 토큰 전송. BSC에서 빠르고, 안전하며, 저렴한 거래.' },
+          encryption: { title: '종단간 암호화', desc: '모든 메시지는 OpenPGP로 암호화. 당신과 수신자만 읽을 수 있습니다.' },
+          email: { title: '이메일 기반', desc: '이메일 프로토콜 위에 구축. 중앙 서버 없음, 완전히 탈중앙화된 통신 인프라.' },
+          multidevice: { title: '멀티 디바이스 지원', desc: 'Android, iOS, 데스크톱에서 대화와 지갑에 접근. 모든 것이 자동 동기화.' },
+          opensource: { title: '오픈 소스', desc: '완전히 감사 가능한 코드. 직접 보안을 검증하거나 커뮤니티 리뷰를 신뢰하세요.' }
+        },
+        howItWorks: {
+          title: '사용 방법',
+          subtitle: '몇 분 만에 시작. 가입 불필요, 전화번호 불필요, 지갑만 있으면 됩니다.',
+          step1: { title: '앱 다운로드', desc: '원하는 기기에 Sirr 설치 - Android, iOS 또는 데스크톱.' },
+          step2: { title: '지갑 생성 또는 가져오기', desc: '새 BSC 지갑을 생성하거나 기존 지갑을 가져오세요. 지갑 주소가 계정이 됩니다.' },
+          step3: { title: '채팅 & 거래', desc: '암호화된 메시지 전송, 토큰 전송, 친구와 홍바오 공유.' }
+        },
+        download: { title: 'Sirr 받기', subtitle: '모든 주요 플랫폼에서 사용 가능. 오늘부터 프라이빗 메시징을 시작하세요.' },
+        faq: {
+          title: '자주 묻는 질문',
+          q1: { question: '탈중앙화 계정은 어떻게 작동하나요?', answer: 'BSC 지갑 주소가 계정입니다. 가입 불필요, 지갑을 연결하거나 새로 만들기만 하면 됩니다. 개인 키로 보호되는 완전한 신원 소유권.' },
+          q2: { question: '내장 지갑으로 무엇을 할 수 있나요?', answer: '내장 BSC 지갑으로 BNB와 BEP-20 토큰 관리, 연락처에 즉시 전송, 홍바오 생성 및 수령, 거래 내역 조회가 가능합니다. 앱을 벗어나지 않고 모두 가능.' },
+          q3: { question: '홍바오는 어떻게 사용하나요?', answer: '홍바오로 채팅에서 친구와 암호화폐를 공유하세요. BNB 또는 토큰으로 홍바오를 만들어 채팅에 보내면, 수신자가 탭하여 수령합니다. 축하, 팁, 커뮤니티 보상에 적합.' },
+          q4: { question: '메시지와 거래는 안전한가요?', answer: '네! 메시지는 OpenPGP로 종단간 암호화됩니다. 지갑 거래는 BSC 블록체인으로 보호됩니다. 개인 키는 기기를 절대 떠나지 않아 완전한 제어권을 유지합니다.' },
+          q5: { question: '어떤 토큰이 지원되나요?', answer: 'Sirr은 BNB(네이티브 토큰)와 USDT, USDC, BUSD 등 BSC의 모든 BEP-20 토큰을 지원합니다. 컨트랙트 주소로 커스텀 BEP-20 토큰도 추가할 수 있습니다.' }
+        },
+        footer: { desc: '이메일 기반의 탈중앙화 보안 메신저 앱. 프라이버시 중심 설계.', product: '제품', resources: '리소스', legal: '법적 정보', documentation: '문서', blog: '블로그', support: '지원', privacy: '개인정보 처리방침', terms: '이용약관', openSource: '오픈 소스' }
+      }
+    };
+
+    const langMeta = {
+      en: { flag: '🇺🇸', name: 'EN' },
+      zh: { flag: '🇨🇳', name: '中文' },
+      ja: { flag: '🇯🇵', name: '日本語' },
+      ko: { flag: '🇰🇷', name: '한국어' }
+    };
+
+    let currentLang = localStorage.getItem('sirr-lang') || 'en';
+
+    // Get nested value from object
+    function getNestedValue(obj, path) {
+      return path.split('.').reduce((o, k) => (o || {})[k], obj);
+    }
+
+    // Apply translations
+    function applyTranslations(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        const value = getNestedValue(t, key);
+        if (value) el.textContent = value;
+      });
+      // Update language button display
+      document.querySelector('.lang-current-flag').textContent = langMeta[lang].flag;
+      document.querySelector('.lang-current-name').textContent = langMeta[lang].name;
+      // Update active state in dropdown
+      document.querySelectorAll('.lang-option').forEach(opt => {
+        opt.classList.toggle('active', opt.dataset.lang === lang);
+      });
+      // Update HTML lang attribute
+      document.documentElement.lang = lang;
+    }
+
+    // Set language
+    function setLanguage(lang) {
+      currentLang = lang;
+      localStorage.setItem('sirr-lang', lang);
+      applyTranslations(lang);
+      toggleLangDropdown();
+    }
+
+    // Toggle language dropdown
+    function toggleLangDropdown() {
+      document.getElementById('langSwitcher').classList.toggle('active');
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      const switcher = document.getElementById('langSwitcher');
+      if (!switcher.contains(e.target)) {
+        switcher.classList.remove('active');
+      }
+    });
+
+    // Mobile navigation toggle
+    function toggleMobileNav() {
+      const nav = document.getElementById('mobileNav');
+      nav.classList.toggle('active');
+    }
+
+    // FAQ toggle
+    function toggleFaq(button) {
+      const item = button.parentElement;
+      item.classList.toggle('active');
+    }
+
+    // Smooth scroll for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Navbar background on scroll
+    window.addEventListener('scroll', function() {
+      const nav = document.querySelector('.nav');
+      if (window.scrollY > 50) {
+        nav.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+      } else {
+        nav.style.boxShadow = 'none';
+      }
+    });
+
+    // Initialize language on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      applyTranslations(currentLang);
+    });
+  </script>
+</body>
+</html>
