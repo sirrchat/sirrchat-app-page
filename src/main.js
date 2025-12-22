@@ -29,6 +29,7 @@ const router = createRouter({
 const savedLang = localStorage.getItem('lang') || 'en'
 const i18n = createI18n({
   legacy: false,
+  globalInjection: true,
   locale: savedLang,
   fallbackLocale: 'en',
   messages: { en, zh, ar, ja, ko }

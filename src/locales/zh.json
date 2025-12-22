@@ -96,8 +96,8 @@
     "openSource": "开源"
   },
   "nodeRegistry": {
-    "title": "节点注册",
-    "subtitle": "在区块链上注册和管理您的邮件服务节点。成为去中心化Sirr网络的一部分。",
+    "title": "通讯节点提交",
+    "subtitle": "提交你的通讯节点，成为SirrMesh通讯拓扑网络的一部分。",
     "connectWallet": "连接钱包",
     "disconnect": "断开连接",
     "notConnected": "未连接",
@@ -110,6 +110,7 @@
     },
     "tabs": {
       "browse": "浏览节点",
+      "pending": "待审批节点",
       "register": "注册节点",
       "myNodes": "我的节点"
     },
@@ -123,6 +124,11 @@
       "actions": "操作",
       "noNodes": "暂无已批准节点",
       "beFirst": "成为第一个注册节点的人！"
+    },
+    "pending": {
+      "title": "待审批节点列表",
+      "noNodes": "暂无待审批节点",
+      "noNodesDesc": "所有提交的节点都已处理完毕。"
     },
     "register": {
       "title": "注册新节点",

@@ -8,8 +8,8 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/node-registry',
-    name: 'node-registry',
+    path: '/node',
+    name: 'node',
     component: NodeRegistryView
   }
 ]

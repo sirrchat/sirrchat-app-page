@@ -163,6 +163,20 @@ a {
   color: var(--color-text-light);
 }
 
+.form-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236B7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.25rem;
+  padding-right: 2.5rem;
+  cursor: pointer;
+}
+
+.form-select:focus {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%235B8DEF'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+}
+
 .form-hint {
   font-size: 0.875rem;
   color: var(--color-text-light);
@@ -256,6 +270,11 @@ a {
   color: var(--color-text-light);
 }
 
+.status-unknown {
+  background: rgba(107, 114, 128, 0.1);
+  color: var(--color-text-light);
+}
+
 /* Loading Spinner */
 .loading {
   display: inline-block;
@@ -274,6 +293,16 @@ a {
 
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+/* Hide Web3Modal email/social login */
+w3m-modal wui-flex[data-testid="wui-email-input"],
+w3m-modal [data-testid="social-login"],
+w3m-modal wui-email-input,
+w3m-modal w3m-social-login-widget,
+w3m-modal w3m-email-login-widget,
+w3m-modal wui-separator {
+  display: none !important;
 }
 
 /* Utilities */

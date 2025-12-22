@@ -96,8 +96,8 @@
     "openSource": "オープンソース"
   },
   "nodeRegistry": {
-    "title": "ノード登録",
-    "subtitle": "ブロックチェーン上でメールサービスノードを登録・管理。分散型Sirrネットワークの一部になりましょう。",
+    "title": "通信ノード提出",
+    "subtitle": "通信ノードを提出して、SirrMesh通信トポロジーネットワークの一部になりましょう。",
     "connectWallet": "ウォレット接続",
     "disconnect": "切断",
     "notConnected": "未接続",

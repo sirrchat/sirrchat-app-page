@@ -1,9 +1,9 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useWallet, NodeStatus } from '@/composables/useWallet'
 
-const { t } = useI18n()
+const { t } = useI18n({ useScope: 'global' })
 const {
   isConnected,
   isConnecting,
@@ -12,7 +12,6 @@ const {
   networkName,
   connect,
   disconnect,
-  checkConnection,
   registerNode,
   updateNode,
   revokeNode,
@@ -21,7 +20,8 @@ const {
   getApprovedNodesCount,
   getPendingNodes,
   getMyNodes,
-  CONTRACT_ADDRESS
+  CONTRACT_ADDRESS,
+  DEFAULT_PAGE_SIZE
 } = useWallet()
 
 // Tab state
@@ -37,8 +37,21 @@ const stats = ref({
 
 // Nodes data
 const approvedNodes = ref([])
+const pendingNodes = ref([])
 const myNodes = ref([])
 const isLoading = ref(false)
+
+// Pagination state
+const pagination = ref({
+  approved: { page: 1, total: 0 },
+  pending: { page: 1, total: 0 },
+  myNodes: { page: 1, total: 0 }
+})
+
+// Computed pagination info
+const approvedTotalPages = computed(() => Math.ceil(pagination.value.approved.total / DEFAULT_PAGE_SIZE) || 1)
+const pendingTotalPages = computed(() => Math.ceil(pagination.value.pending.total / DEFAULT_PAGE_SIZE) || 1)
+const myNodesTotalPages = computed(() => Math.ceil(pagination.value.myNodes.total / DEFAULT_PAGE_SIZE) || 1)
 
 // Register form
 const registerForm = ref({
@@ -62,6 +75,18 @@ const showRevokeModal = ref(false)
 const revokeNodeId = ref('')
 const isRevoking = ref(false)
 
+// Region options
+const regionOptions = [
+  { value: '', label: 'Select Region' },
+  { value: 'Asia-Pacific', label: 'Asia-Pacific' },
+  { value: 'North America', label: 'North America' },
+  { value: 'Europe', label: 'Europe' },
+  { value: 'South America', label: 'South America' },
+  { value: 'Middle East', label: 'Middle East' },
+  { value: 'Africa', label: 'Africa' },
+  { value: 'Oceania', label: 'Oceania' }
+]
+
 // Computed
 const isContractConfigured = computed(() => CONTRACT_ADDRESS !== '0x0000000000000000000000000000000000000000')
 
@@ -75,28 +100,56 @@ async function handleConnect() {
   }
 }
 
+async function loadApprovedNodes(page = 1) {
+  if (!isContractConfigured.value) return
+
+  isLoading.value = true
+  try {
+    const offset = (page - 1) * DEFAULT_PAGE_SIZE
+    const result = await getApprovedNodes(offset, DEFAULT_PAGE_SIZE)
+    approvedNodes.value = result.nodes
+    pagination.value.approved = { page, total: result.total }
+    stats.value.approvedNodes = result.total.toString()
+  } catch (error) {
+    console.error('Error loading approved nodes:', error)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+async function loadPendingNodes(page = 1) {
+  if (!isContractConfigured.value) return
+
+  isLoading.value = true
+  try {
+    const offset = (page - 1) * DEFAULT_PAGE_SIZE
+    const result = await getPendingNodes(offset, DEFAULT_PAGE_SIZE)
+    pendingNodes.value = result.nodes
+    pagination.value.pending = { page, total: result.total }
+    stats.value.pendingNodes = result.total.toString()
+  } catch (error) {
+    console.error('Error loading pending nodes:', error)
+    pendingNodes.value = []
+    stats.value.pendingNodes = '-'
+  } finally {
+    isLoading.value = false
+  }
+}
+
 async function loadPublicData() {
   if (!isContractConfigured.value) return
 
   isLoading.value = true
   try {
-    const nodes = await getApprovedNodes()
-    approvedNodes.value = nodes
-
-    const [total, approved] = await Promise.all([
-      getNodeCount(),
-      getApprovedNodesCount()
-    ])
-
+    // Load total node count
+    const total = await getNodeCount()
     stats.value.totalNodes = total.toString()
-    stats.value.approvedNodes = approved.toString()
 
-    try {
-      const pending = await getPendingNodes()
-      stats.value.pendingNodes = pending.length.toString()
-    } catch {
-      stats.value.pendingNodes = '-'
-    }
+    // Load approved and pending nodes
+    await Promise.all([
+      loadApprovedNodes(1),
+      loadPendingNodes(1)
+    ])
   } catch (error) {
     console.error('Error loading public data:', error)
   } finally {
@@ -104,15 +157,36 @@ async function loadPublicData() {
   }
 }
 
-async function loadMyNodesData() {
+async function loadMyNodesData(page = 1) {
   if (!isConnected.value) return
 
   try {
-    const nodes = await getMyNodes()
-    myNodes.value = nodes
-    stats.value.myNodes = nodes.length.toString()
+    const offset = (page - 1) * DEFAULT_PAGE_SIZE
+    const result = await getMyNodes(offset, DEFAULT_PAGE_SIZE)
+    myNodes.value = result.nodes
+    pagination.value.myNodes = { page, total: result.total }
+    stats.value.myNodes = result.total.toString()
   } catch (error) {
     console.error('Error loading my nodes:', error)
+  }
+}
+
+// Pagination handlers
+function goToApprovedPage(page) {
+  if (page >= 1 && page <= approvedTotalPages.value) {
+    loadApprovedNodes(page)
+  }
+}
+
+function goToPendingPage(page) {
+  if (page >= 1 && page <= pendingTotalPages.value) {
+    loadPendingNodes(page)
+  }
+}
+
+function goToMyNodesPage(page) {
+  if (page >= 1 && page <= myNodesTotalPages.value) {
+    loadMyNodesData(page)
   }
 }
 
@@ -203,15 +277,26 @@ function formatDate(timestamp) {
 }
 
 function getStatusClass(status) {
-  return `status-${NodeStatus[status].toLowerCase()}`
+  const statusText = NodeStatus[status] || 'unknown'
+  return `status-${statusText.toLowerCase()}`
 }
+
+// Watch for connection changes
+watch(isConnected, async (connected) => {
+  if (connected) {
+    await loadMyNodesData(1)
+  } else {
+    myNodes.value = []
+    pagination.value.myNodes = { page: 1, total: 0 }
+    stats.value.myNodes = '-'
+  }
+})
 
 // Lifecycle
 onMounted(async () => {
-  await checkConnection()
   await loadPublicData()
   if (isConnected.value) {
-    await loadMyNodesData()
+    await loadMyNodesData(1)
   }
 })
 </script>
@@ -280,6 +365,13 @@ onMounted(async () => {
         </button>
         <button
           class="tab-btn"
+          :class="{ active: activeTab === 'pending' }"
+          @click="activeTab = 'pending'"
+        >
+          {{ t('nodeRegistry.tabs.pending') }}
+        </button>
+        <button
+          class="tab-btn"
           :class="{ active: activeTab === 'register' }"
           @click="activeTab = 'register'"
         >
@@ -314,26 +406,111 @@ onMounted(async () => {
             <p>{{ t('nodeRegistry.browse.beFirst') }}</p>
           </div>
 
-          <table v-else class="node-table">
-            <thead>
-              <tr>
-                <th>{{ t('nodeRegistry.browse.domain') }}</th>
-                <th>{{ t('nodeRegistry.browse.server') }}</th>
-                <th>{{ t('nodeRegistry.browse.region') }}</th>
-                <th>{{ t('nodeRegistry.browse.status') }}</th>
-                <th>{{ t('nodeRegistry.browse.registered') }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(node, index) in approvedNodes" :key="index">
-                <td class="node-domain">{{ node.domain }}</td>
-                <td class="node-server">{{ node.server }}</td>
-                <td>{{ node.region || '-' }}</td>
-                <td><span class="status-badge status-approved">Approved</span></td>
-                <td>{{ formatDate(node.registeredAt) }}</td>
-              </tr>
-            </tbody>
-          </table>
+          <template v-else>
+            <table class="node-table">
+              <thead>
+                <tr>
+                  <th>{{ t('nodeRegistry.browse.domain') }}</th>
+                  <th>{{ t('nodeRegistry.browse.server') }}</th>
+                  <th>{{ t('nodeRegistry.browse.region') }}</th>
+                  <th>{{ t('nodeRegistry.browse.status') }}</th>
+                  <th>{{ t('nodeRegistry.browse.registered') }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(node, index) in approvedNodes" :key="index">
+                  <td class="node-domain">{{ node.domain }}</td>
+                  <td class="node-server">{{ node.server }}</td>
+                  <td>{{ node.region || '-' }}</td>
+                  <td><span class="status-badge status-approved">Approved</span></td>
+                  <td>{{ formatDate(node.registeredAt) }}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- Pagination -->
+            <div v-if="approvedTotalPages > 1" class="pagination">
+              <button
+                class="pagination-btn"
+                :disabled="pagination.approved.page <= 1"
+                @click="goToApprovedPage(pagination.approved.page - 1)"
+              >
+                &laquo;
+              </button>
+              <span class="pagination-info">
+                {{ pagination.approved.page }} / {{ approvedTotalPages }}
+              </span>
+              <button
+                class="pagination-btn"
+                :disabled="pagination.approved.page >= approvedTotalPages"
+                @click="goToApprovedPage(pagination.approved.page + 1)"
+              >
+                &raquo;
+              </button>
+            </div>
+          </template>
+        </div>
+      </div>
+
+      <!-- Tab: Pending Nodes -->
+      <div v-show="activeTab === 'pending'" class="tab-content">
+        <div class="card">
+          <h2 class="card-title">{{ t('nodeRegistry.pending.title') }}</h2>
+
+          <div v-if="isLoading" class="empty-state">
+            <div class="loading loading-dark"></div>
+            <p>Loading nodes...</p>
+          </div>
+
+          <div v-else-if="pendingNodes.length === 0" class="empty-state">
+            <div class="empty-state-icon">&#9201;</div>
+            <p class="empty-state-title">{{ t('nodeRegistry.pending.noNodes') }}</p>
+            <p>{{ t('nodeRegistry.pending.noNodesDesc') }}</p>
+          </div>
+
+          <template v-else>
+            <table class="node-table">
+              <thead>
+                <tr>
+                  <th>{{ t('nodeRegistry.browse.domain') }}</th>
+                  <th>{{ t('nodeRegistry.browse.server') }}</th>
+                  <th>{{ t('nodeRegistry.browse.region') }}</th>
+                  <th>{{ t('nodeRegistry.browse.status') }}</th>
+                  <th>{{ t('nodeRegistry.browse.registered') }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(node, index) in pendingNodes" :key="index">
+                  <td class="node-domain">{{ node.domain }}</td>
+                  <td class="node-server">{{ node.server }}</td>
+                  <td>{{ node.region || '-' }}</td>
+                  <td><span class="status-badge status-pending">Pending</span></td>
+                  <td>{{ formatDate(node.registeredAt) }}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- Pagination -->
+            <div v-if="pendingTotalPages > 1" class="pagination">
+              <button
+                class="pagination-btn"
+                :disabled="pagination.pending.page <= 1"
+                @click="goToPendingPage(pagination.pending.page - 1)"
+              >
+                &laquo;
+              </button>
+              <span class="pagination-info">
+                {{ pagination.pending.page }} / {{ pendingTotalPages }}
+              </span>
+              <button
+                class="pagination-btn"
+                :disabled="pagination.pending.page >= pendingTotalPages"
+                @click="goToPendingPage(pagination.pending.page + 1)"
+              >
+                &raquo;
+              </button>
+            </div>
+          </template>
         </div>
       </div>
 
@@ -376,13 +553,15 @@ onMounted(async () => {
 
               <div class="form-group">
                 <label class="form-label" for="nodeRegion">{{ t('nodeRegistry.register.region') }}</label>
-                <input
-                  type="text"
-                  class="form-input"
+                <select
+                  class="form-input form-select"
                   id="nodeRegion"
                   v-model="registerForm.region"
-                  :placeholder="t('nodeRegistry.register.regionPlaceholder')"
                 >
+                  <option v-for="opt in regionOptions" :key="opt.value" :value="opt.value">
+                    {{ opt.label }}
+                  </option>
+                </select>
                 <p class="form-hint">{{ t('nodeRegistry.register.regionHint') }}</p>
               </div>
             </div>
@@ -414,46 +593,69 @@ onMounted(async () => {
             <p>{{ t('nodeRegistry.myNodes.noNodesDesc') }}</p>
           </div>
 
-          <table v-else class="node-table">
-            <thead>
-              <tr>
-                <th>{{ t('nodeRegistry.browse.domain') }}</th>
-                <th>{{ t('nodeRegistry.browse.server') }}</th>
-                <th>{{ t('nodeRegistry.browse.region') }}</th>
-                <th>{{ t('nodeRegistry.browse.status') }}</th>
-                <th>{{ t('nodeRegistry.browse.actions') }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="node in myNodes" :key="node.nodeId">
-                <td class="node-domain">{{ node.domain }}</td>
-                <td class="node-server">{{ node.server }}</td>
-                <td>{{ node.region || '-' }}</td>
-                <td>
-                  <span class="status-badge" :class="getStatusClass(node.status)">
-                    {{ NodeStatus[node.status] }}
-                  </span>
-                </td>
-                <td class="node-actions">
-                  <template v-if="node.status !== 5">
-                    <button
-                      class="btn btn-secondary btn-sm"
-                      @click="openUpdateModal(node.nodeId, node.server, node.region)"
-                    >
-                      {{ t('nodeRegistry.myNodes.update') }}
-                    </button>
-                    <button
-                      class="btn btn-danger btn-sm"
-                      @click="openRevokeModal(node.nodeId)"
-                    >
-                      {{ t('nodeRegistry.myNodes.revoke') }}
-                    </button>
-                  </template>
-                  <span v-else class="text-muted">Revoked</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <template v-else>
+            <table class="node-table">
+              <thead>
+                <tr>
+                  <th>{{ t('nodeRegistry.browse.domain') }}</th>
+                  <th>{{ t('nodeRegistry.browse.server') }}</th>
+                  <th>{{ t('nodeRegistry.browse.region') }}</th>
+                  <th>{{ t('nodeRegistry.browse.status') }}</th>
+                  <th>{{ t('nodeRegistry.browse.actions') }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="node in myNodes" :key="node.nodeId">
+                  <td class="node-domain">{{ node.domain }}</td>
+                  <td class="node-server">{{ node.server }}</td>
+                  <td>{{ node.region || '-' }}</td>
+                  <td>
+                    <span class="status-badge" :class="getStatusClass(node.status)">
+                      {{ NodeStatus[node.status] || 'Unknown' }}
+                    </span>
+                  </td>
+                  <td class="node-actions">
+                    <template v-if="node.status !== 5">
+                      <button
+                        class="btn btn-secondary btn-sm"
+                        @click="openUpdateModal(node.nodeId, node.server, node.region)"
+                      >
+                        {{ t('nodeRegistry.myNodes.update') }}
+                      </button>
+                      <button
+                        class="btn btn-danger btn-sm"
+                        @click="openRevokeModal(node.nodeId)"
+                      >
+                        {{ t('nodeRegistry.myNodes.revoke') }}
+                      </button>
+                    </template>
+                    <span v-else class="text-muted">Revoked</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- Pagination -->
+            <div v-if="myNodesTotalPages > 1" class="pagination">
+              <button
+                class="pagination-btn"
+                :disabled="pagination.myNodes.page <= 1"
+                @click="goToMyNodesPage(pagination.myNodes.page - 1)"
+              >
+                &laquo;
+              </button>
+              <span class="pagination-info">
+                {{ pagination.myNodes.page }} / {{ myNodesTotalPages }}
+              </span>
+              <button
+                class="pagination-btn"
+                :disabled="pagination.myNodes.page >= myNodesTotalPages"
+                @click="goToMyNodesPage(pagination.myNodes.page + 1)"
+              >
+                &raquo;
+              </button>
+            </div>
+          </template>
         </div>
       </div>
     </div>
@@ -475,12 +677,15 @@ onMounted(async () => {
           </div>
           <div class="form-group">
             <label class="form-label" for="updateRegion">{{ t('nodeRegistry.register.region') }}</label>
-            <input
-              type="text"
-              class="form-input"
+            <select
+              class="form-input form-select"
               id="updateRegion"
               v-model="updateForm.region"
             >
+              <option v-for="opt in regionOptions" :key="opt.value" :value="opt.value">
+                {{ opt.label }}
+              </option>
+            </select>
           </div>
           <div class="modal-actions">
             <button type="button" class="btn btn-secondary" @click="showUpdateModal = false">
@@ -776,6 +981,50 @@ onMounted(async () => {
 
 .text-muted {
   color: var(--color-text-light);
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.pagination-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: var(--color-bg-alt);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  transition: all 0.2s;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: var(--color-primary-1);
+  color: white;
+  border-color: var(--color-primary-1);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-info {
+  font-size: 0.875rem;
+  color: var(--color-text-light);
+  font-weight: 500;
 }
 
 /* Responsive */

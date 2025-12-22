@@ -96,8 +96,8 @@
     "openSource": "Open Source"
   },
   "nodeRegistry": {
-    "title": "Node Registry",
-    "subtitle": "Register and manage your mail service nodes on the blockchain. Become part of the decentralized Sirr network.",
+    "title": "Communication Node Submission",
+    "subtitle": "Submit your communication node to become part of the SirrMesh communication topology network.",
     "connectWallet": "Connect Wallet",
     "disconnect": "Disconnect",
     "notConnected": "Not Connected",
@@ -110,6 +110,7 @@
     },
     "tabs": {
       "browse": "Browse Nodes",
+      "pending": "Pending Nodes",
       "register": "Register Node",
       "myNodes": "My Nodes"
     },
@@ -123,6 +124,11 @@
       "actions": "Actions",
       "noNodes": "No Approved Nodes Yet",
       "beFirst": "Be the first to register a node!"
+    },
+    "pending": {
+      "title": "Pending Approval Nodes",
+      "noNodes": "No Pending Nodes",
+      "noNodesDesc": "All submitted nodes have been processed."
     },
     "register": {
       "title": "Register a New Node",

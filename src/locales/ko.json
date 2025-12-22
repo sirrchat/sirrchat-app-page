@@ -96,8 +96,8 @@
     "openSource": "오픈 소스"
   },
   "nodeRegistry": {
-    "title": "노드 등록",
-    "subtitle": "블록체인에서 메일 서비스 노드를 등록하고 관리하세요. 탈중앙화 Sirr 네트워크의 일원이 되세요.",
+    "title": "통신 노드 제출",
+    "subtitle": "통신 노드를 제출하여 SirrMesh 통신 토폴로지 네트워크의 일원이 되세요.",
     "connectWallet": "지갑 연결",
     "disconnect": "연결 해제",
     "notConnected": "연결되지 않음",

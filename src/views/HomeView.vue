@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-const { t } = useI18n()
+const { t } = useI18n({ useScope: 'global' })
 
 const faqItems = ref([
   { id: 1, open: false },
@@ -30,11 +30,11 @@ function toggleFaq(id) {
           <div class="hero-buttons">
             <a href="#download" class="btn btn-primary">{{ t('hero.downloadBtn') }}</a>
             <a href="#features" class="btn btn-secondary">{{ t('hero.learnMoreBtn') }}</a>
-            <router-link to="/node-registry" class="btn btn-outline">{{ t('hero.selfHostBtn') }}</router-link>
+            <router-link to="/node" class="btn btn-outline">{{ t('hero.selfHostBtn') }}</router-link>
           </div>
         </div>
         <div class="hero-visual">
-          <img src="/assets/app_frame.png" alt="Sirr App" class="hero-app-screenshot">
+          <img src="/assets/app_frame_v2.png" alt="Sirr App" class="hero-app-screenshot">
         </div>
       </div>
     </section>
