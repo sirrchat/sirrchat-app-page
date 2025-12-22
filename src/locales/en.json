@@ -1,0 +1,169 @@
+{
+  "nav": {
+    "features": "Features",
+    "howItWorks": "How It Works",
+    "faq": "FAQ",
+    "docs": "Docs",
+    "download": "Download",
+    "nodeRegistry": "Node Registry"
+  },
+  "hero": {
+    "badge": "Anonymous · Secure · Encrypted · Censorship-Resistant",
+    "title": "Sirr exists to make communication untraceable",
+    "subtitle": "Sirr is an encrypted communication tool with anonymity and security as its first principles! We advocate for \"Communication Freedom\" and \"User Sovereignty\"!",
+    "downloadBtn": "Download Now",
+    "learnMoreBtn": "Learn More",
+    "selfHostBtn": "Deploy Node"
+  },
+  "features": {
+    "title": "Why is Sirr More Secure Than Other IMs?",
+    "subtitle": "A communication architecture built for anonymity and security. Sirr is not just an \"APP\", but a decentralized encrypted communication infrastructure!",
+    "noserver": {
+      "title": "No Central Server Stores Any Data",
+      "desc": "Unlike WhatsApp and Telegram, Sirr has no central server, no core node that can be shut down, and stores no user profile information or communication content."
+    },
+    "selfhost": {
+      "title": "Anyone Can Run Communication Nodes",
+      "desc": "Ultimate privacy - anyone can run a Sirr communication node, forming a truly distributed communication network. All your data can be stored on your own cross-border node, beyond anyone's censorship."
+    },
+    "crossnode": {
+      "title": "Seamless Cross-Node Communication",
+      "desc": "Users on different communication nodes can communicate freely and seamlessly across servers, without needing to know which node the other party is on."
+    },
+    "opensource": {
+      "title": "Open Source & Transparent",
+      "desc": "Open source code that can be audited. Verify security yourself or trust the community's review."
+    },
+    "encryption": {
+      "title": "OpenPGP-Based End-to-End Encryption",
+      "desc": "All chat content is encrypted using OpenPGP, and only the communicating parties can decrypt and read the messages."
+    },
+    "multidevice": {
+      "title": "Multi-Device Support",
+      "desc": "Download Sirr client on Android, iOS, and PC. All content syncs automatically."
+    },
+    "censorship": {
+      "title": "Censorship-Resistant Design",
+      "desc": "No single point of control in the network, making it difficult to block or monitor."
+    }
+  },
+  "howItWorks": {
+    "title": "Sirr Has Verifiable Security",
+    "content": "Sirr uses the OpenPGP encryption standard to provide end-to-end encryption for all user communications. OpenPGP was born in 1991, against the backdrop of governments beginning mass surveillance of electronic communications. Its founder Zimmermann's goal was to enable ordinary people to use military-grade encryption to protect communication freedom. Later, the core ideas of PGP were organized into an open standard that belongs to no company or government, maintained by global developers. Its open standards are RFC4880/4880bis. OpenPGP does not rely on central servers, requires no CA (Certificate Authority), and each person owns their own keys and is responsible for them. Encryption happens on the client side, keys are never uploaded to servers - the server is just a \"blind messenger\". Even if all servers are compromised, attackers can only see encrypted gibberish. OpenPGP's algorithms are public, protocols are open, and implementations have been continuously reviewed by the global cryptography community for 30 years. This is the source of verifiable security. Even if Sirr ceases to exist one day, users can still decrypt their historical messages. Therefore, Sirr is designed for long-term, serious, secure communication."
+  },
+  "wallet": {
+    "title": "Sirr's Additional Features - Decentralized Wallet",
+    "content": "Built-in decentralized wallet. When users create an account, a decentralized BNBChain wallet is automatically generated. The private key is only saved on your local client to ensure security. It supports free transfers between users and multi-person gift giving functions in group chats. You can deposit and withdraw at any time."
+  },
+  "download": {
+    "title": "Get Sirr Now",
+    "subtitle": "Available on all major platforms. Start messaging privately today.",
+    "android": "Android",
+    "ios": "iOS",
+    "macos": "macOS",
+    "windows": "Windows"
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "q1": {
+      "question": "How does the decentralized account work?",
+      "answer": "Your BSC wallet address serves as your account. No registration required - just connect your wallet or create a new one. You have complete ownership of your identity, secured by your private key."
+    },
+    "q2": {
+      "question": "What can I do with the built-in wallet?",
+      "answer": "The built-in BSC wallet lets you manage BNB and BEP-20 tokens, send instant transfers to contacts, create and claim red packets, and view transaction history - all without leaving the app."
+    },
+    "q3": {
+      "question": "How do red packets work?",
+      "answer": "Red packets let you share crypto with friends in chats. Create a red packet with BNB or tokens, send it to a chat, and recipients can tap to claim. Great for celebrations, tips, or community rewards."
+    },
+    "q4": {
+      "question": "Are my messages and transactions secure?",
+      "answer": "Yes! Messages are end-to-end encrypted using OpenPGP. Wallet transactions are secured by BSC blockchain. Your private keys never leave your device, giving you full control."
+    },
+    "q5": {
+      "question": "What tokens are supported?",
+      "answer": "Sirr supports BNB (native token) and all BEP-20 tokens on BSC, including USDT, USDC, BUSD, and many others. You can add any custom BEP-20 token by its contract address."
+    }
+  },
+  "footer": {
+    "desc": "A decentralized and secure messenger app that works over email. Private by design.",
+    "product": "Product",
+    "resources": "Resources",
+    "legal": "Legal",
+    "documentation": "Documentation",
+    "blog": "Blog",
+    "openSource": "Open Source"
+  },
+  "nodeRegistry": {
+    "title": "Node Registry",
+    "subtitle": "Register and manage your mail service nodes on the blockchain. Become part of the decentralized Sirr network.",
+    "connectWallet": "Connect Wallet",
+    "disconnect": "Disconnect",
+    "notConnected": "Not Connected",
+    "connected": "Connected",
+    "stats": {
+      "totalNodes": "Total Nodes",
+      "approvedNodes": "Approved Nodes",
+      "pendingNodes": "Pending Approval",
+      "myNodes": "My Nodes"
+    },
+    "tabs": {
+      "browse": "Browse Nodes",
+      "register": "Register Node",
+      "myNodes": "My Nodes"
+    },
+    "browse": {
+      "title": "Approved Service Nodes",
+      "domain": "Domain",
+      "server": "Server",
+      "region": "Region",
+      "status": "Status",
+      "registered": "Registered",
+      "actions": "Actions",
+      "noNodes": "No Approved Nodes Yet",
+      "beFirst": "Be the first to register a node!"
+    },
+    "register": {
+      "title": "Register a New Node",
+      "connectAlert": "Please connect your wallet to register a node.",
+      "domain": "Domain",
+      "domainPlaceholder": "e.g., mailcoin.org",
+      "domainHint": "The unique domain for your mail service. This cannot be changed after registration.",
+      "server": "Mail Server",
+      "serverPlaceholder": "e.g., mx1.mailcoin.org",
+      "serverHint": "The mail server address (MX record).",
+      "region": "Region",
+      "regionPlaceholder": "e.g., US-East, EU-West, Asia",
+      "regionHint": "Geographic region of your server.",
+      "pendingWarning": "After registration, your node will be in \"Pending\" status until approved by the network administrator.",
+      "submit": "Register Node",
+      "registering": "Registering..."
+    },
+    "myNodes": {
+      "title": "My Registered Nodes",
+      "connectAlert": "Please connect your wallet to view your nodes.",
+      "noNodes": "No Nodes Registered",
+      "noNodesDesc": "You haven't registered any nodes yet.",
+      "update": "Update",
+      "revoke": "Revoke"
+    },
+    "updateModal": {
+      "title": "Update Node",
+      "cancel": "Cancel",
+      "submit": "Update"
+    },
+    "revokeModal": {
+      "title": "Revoke Node",
+      "confirm": "Are you sure you want to revoke this node? This action cannot be undone.",
+      "cancel": "Cancel",
+      "submit": "Revoke Node"
+    },
+    "messages": {
+      "registerSuccess": "Node registered successfully! It will be reviewed by the administrator.",
+      "updateSuccess": "Node updated successfully!",
+      "revokeSuccess": "Node revoked successfully.",
+      "error": "Operation failed"
+    }
+  }
+}

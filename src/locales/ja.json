@@ -1,0 +1,169 @@
+{
+  "nav": {
+    "features": "機能",
+    "howItWorks": "使い方",
+    "faq": "よくある質問",
+    "docs": "ドキュメント",
+    "download": "ダウンロード",
+    "nodeRegistry": "ノード登録"
+  },
+  "hero": {
+    "badge": "匿名 · 安全 · 暗号化 · 検閲耐性",
+    "title": "Sirrは通信を追跡不可能にするために存在します",
+    "subtitle": "Sirrは匿名性とセキュリティを第一原則とする暗号化通信ツールです！私たちは「通信の自由」と「ユーザー主権」を提唱します！",
+    "downloadBtn": "今すぐダウンロード",
+    "learnMoreBtn": "詳細を見る",
+    "selfHostBtn": "ノードをデプロイ"
+  },
+  "features": {
+    "title": "なぜSirrは他のIMより安全なのか？",
+    "subtitle": "匿名性とセキュリティのために構築された通信アーキテクチャ。Sirrは単なる「アプリ」ではなく、分散型暗号化通信インフラです！",
+    "noserver": {
+      "title": "中央サーバーにデータを保存しない",
+      "desc": "WhatsAppやTelegramとは異なり、Sirrには中央サーバーがなく、シャットダウンできるコアノードもなく、ユーザー情報や通信内容を保存しません。"
+    },
+    "selfhost": {
+      "title": "誰でも通信ノードを運用可能",
+      "desc": "究極のプライバシー - 誰でもSirr通信ノードを運用でき、真の分散型通信ネットワークを形成します。"
+    },
+    "crossnode": {
+      "title": "シームレスなノード間通信",
+      "desc": "異なる通信ノード上のユーザーが、サーバー間を意識することなく自由に通信できます。"
+    },
+    "opensource": {
+      "title": "オープンソース＆透明性",
+      "desc": "監査可能なオープンソースコード。自分でセキュリティを検証するか、コミュニティのレビューを信頼してください。"
+    },
+    "encryption": {
+      "title": "OpenPGPベースのエンドツーエンド暗号化",
+      "desc": "すべてのチャット内容はOpenPGPで暗号化され、通信当事者のみがメッセージを復号して読むことができます。"
+    },
+    "multidevice": {
+      "title": "マルチデバイス対応",
+      "desc": "Android、iOS、PCでSirrクライアントをダウンロード。すべてのコンテンツが自動的に同期されます。"
+    },
+    "censorship": {
+      "title": "検閲耐性設計",
+      "desc": "ネットワークに単一の制御ポイントがなく、ブロックや監視が困難です。"
+    }
+  },
+  "howItWorks": {
+    "title": "Sirrは検証可能なセキュリティを持っています",
+    "content": "SirrはOpenPGP暗号化標準を使用して、すべてのユーザー通信にエンドツーエンド暗号化を提供します。"
+  },
+  "wallet": {
+    "title": "Sirrの追加機能 - 分散型ウォレット",
+    "content": "内蔵分散型ウォレット。ユーザーがアカウントを作成すると、分散型BNBChainウォレットが自動的に生成されます。"
+  },
+  "download": {
+    "title": "今すぐSirrを入手",
+    "subtitle": "すべての主要プラットフォームで利用可能。今日からプライベートメッセージングを始めましょう。",
+    "android": "Android",
+    "ios": "iOS",
+    "macos": "macOS",
+    "windows": "Windows"
+  },
+  "faq": {
+    "title": "よくある質問",
+    "q1": {
+      "question": "分散型アカウントはどのように機能しますか？",
+      "answer": "BSCウォレットアドレスがアカウントになります。登録不要 - ウォレットを接続するか、新しいものを作成するだけです。"
+    },
+    "q2": {
+      "question": "内蔵ウォレットで何ができますか？",
+      "answer": "内蔵BSCウォレットでBNBとBEP-20トークンを管理し、即時送金できます。"
+    },
+    "q3": {
+      "question": "レッドパケットはどのように機能しますか？",
+      "answer": "レッドパケットでチャット内の友達と暗号資産を共有できます。"
+    },
+    "q4": {
+      "question": "メッセージと取引は安全ですか？",
+      "answer": "はい！メッセージはOpenPGPでエンドツーエンド暗号化されています。"
+    },
+    "q5": {
+      "question": "どのトークンがサポートされていますか？",
+      "answer": "SirrはBNBとBSC上のすべてのBEP-20トークンをサポートしています。"
+    }
+  },
+  "footer": {
+    "desc": "メール上で動作する分散型で安全なメッセンジャーアプリ。プライバシー設計。",
+    "product": "製品",
+    "resources": "リソース",
+    "legal": "法的情報",
+    "documentation": "ドキュメント",
+    "blog": "ブログ",
+    "openSource": "オープンソース"
+  },
+  "nodeRegistry": {
+    "title": "ノード登録",
+    "subtitle": "ブロックチェーン上でメールサービスノードを登録・管理。分散型Sirrネットワークの一部になりましょう。",
+    "connectWallet": "ウォレット接続",
+    "disconnect": "切断",
+    "notConnected": "未接続",
+    "connected": "接続済み",
+    "stats": {
+      "totalNodes": "総ノード数",
+      "approvedNodes": "承認済み",
+      "pendingNodes": "承認待ち",
+      "myNodes": "マイノード"
+    },
+    "tabs": {
+      "browse": "ノード一覧",
+      "register": "ノード登録",
+      "myNodes": "マイノード"
+    },
+    "browse": {
+      "title": "承認済みサービスノード",
+      "domain": "ドメイン",
+      "server": "サーバー",
+      "region": "地域",
+      "status": "ステータス",
+      "registered": "登録日",
+      "actions": "アクション",
+      "noNodes": "承認済みノードはまだありません",
+      "beFirst": "最初のノードを登録しましょう！"
+    },
+    "register": {
+      "title": "新規ノード登録",
+      "connectAlert": "ノードを登録するにはウォレットを接続してください。",
+      "domain": "ドメイン",
+      "domainPlaceholder": "例：mailcoin.org",
+      "domainHint": "メールサービスの一意のドメイン。登録後は変更できません。",
+      "server": "メールサーバー",
+      "serverPlaceholder": "例：mx1.mailcoin.org",
+      "serverHint": "メールサーバーアドレス（MXレコード）。",
+      "region": "地域",
+      "regionPlaceholder": "例：US-East, EU-West, Asia",
+      "regionHint": "サーバーの地理的位置。",
+      "pendingWarning": "登録後、ノードはネットワーク管理者による承認まで「承認待ち」状態になります。",
+      "submit": "ノードを登録",
+      "registering": "登録中..."
+    },
+    "myNodes": {
+      "title": "登録済みノード",
+      "connectAlert": "ノードを表示するにはウォレットを接続してください。",
+      "noNodes": "登録済みノードなし",
+      "noNodesDesc": "まだノードを登録していません。",
+      "update": "更新",
+      "revoke": "取り消し"
+    },
+    "updateModal": {
+      "title": "ノード更新",
+      "cancel": "キャンセル",
+      "submit": "更新"
+    },
+    "revokeModal": {
+      "title": "ノード取り消し",
+      "confirm": "このノードを取り消してもよろしいですか？この操作は元に戻せません。",
+      "cancel": "キャンセル",
+      "submit": "ノードを取り消し"
+    },
+    "messages": {
+      "registerSuccess": "ノードが正常に登録されました！管理者による審査が行われます。",
+      "updateSuccess": "ノードが正常に更新されました！",
+      "revokeSuccess": "ノードが正常に取り消されました。",
+      "error": "操作に失敗しました"
+    }
+  }
+}

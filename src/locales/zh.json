@@ -1,0 +1,169 @@
+{
+  "nav": {
+    "features": "功能特性",
+    "howItWorks": "使用方法",
+    "faq": "常见问题",
+    "docs": "文档",
+    "download": "下载",
+    "nodeRegistry": "节点注册"
+  },
+  "hero": {
+    "badge": "隐匿 · 安全 · 加密 · 抗审查",
+    "title": "Sirr的出现,只为了让\"通讯无法被窥探\"",
+    "subtitle": "Sirr是一个以隐匿、安全为第一原则的加密通讯工具!我们倡导\"通讯自由\"与\"用户主权\"!",
+    "downloadBtn": "立即下载",
+    "learnMoreBtn": "了解更多",
+    "selfHostBtn": "搭建通讯节点"
+  },
+  "features": {
+    "title": "为什么Sirr比其他IM更安全？",
+    "subtitle": "为隐匿安全而生的通讯架构，Sirr不是一个\"APP\"，而是一套去中心化的加密通讯基础设施！",
+    "noserver": {
+      "title": "没有中央服务器存储任何数据",
+      "desc": "与WhatsApp以及TeleGram不同，Sirr没有中央服务器，不存在被关停的核心节点，也不存储任何用户资料信息与通讯内容。"
+    },
+    "selfhost": {
+      "title": "人人可搭建通讯节点",
+      "desc": "极端隐私，任何人都可以运行Sirr通讯节点，形成真正的分布式通讯网络，你的所有数据可以放在自己的跨国通讯节点内，任何人也别想审查。"
+    },
+    "crossnode": {
+      "title": "无感知的跨节点通讯",
+      "desc": "不同通讯节点上的用户可以自由无感知跨服通讯，无需关心对方所在的通讯节点。"
+    },
+    "opensource": {
+      "title": "开源透明",
+      "desc": "代码开源可审计，您可以自行验证安全性或信任社区的审核。"
+    },
+    "encryption": {
+      "title": "基于OpenPGP的端到端加密",
+      "desc": "所有聊天内容均采用OpenPGP加密，只有通讯双方可以解密和阅读消息内容。"
+    },
+    "multidevice": {
+      "title": "多设备支持",
+      "desc": "在安卓、IOS、PC端上均可以下载Sirr客户端，所有内容自动同步。"
+    },
+    "censorship": {
+      "title": "抗审查设计",
+      "desc": "网络中不存在单一控制点，难以封锁、难以监控。"
+    }
+  },
+  "howItWorks": {
+    "title": "Sirr拥有可验证的安全",
+    "content": "Sirr采用 OpenPGP 加密标准，对所有用户的一切聊天内容进行端到端加密。OpenPGP在1991年诞生，背景是政府开始大规模监听电子通讯，他的创始人Zimmermann的目标是：让普通人也能使用军用级别的加密，保护通讯自由。后来PGP的核心思想被整理成公开标准，他不属于任何公司或政府，由全球开发者共同维护，他开放标准为RFC4880/4880bis。OpenPGP是一个不依赖中心服务器，不需要CA，每个人拥有自己的密钥，对自己的密钥负责。加密发生在客户端，密钥永远不会上传服务器，服务器只是\"盲眼邮差\"，即使服务器全部被攻破，攻击者也只能看到加密后的乱码。OpenPGP算法公开、协议公开、实现持续30年的全球密码学社区持续审查，这是可验证的安全来源，即使哪一天Sirr不存在了，用户依然能解密自己的历史消息，所以Sirr是为了长期、严肃、安全通讯设计的体系。"
+  },
+  "wallet": {
+    "title": "Sirr的附属功能，去中心化钱包",
+    "content": "内建去中心化钱包，用户创建账号时会自动生成一个去中心化的BNBChain钱包，私钥只有你的本地客户端保存，确保安全，支持用户之间的自由转账，且支持在群组聊天内的多人礼物赠送功能，随时可以转入和转出。"
+  },
+  "download": {
+    "title": "立即获取 Sirr",
+    "subtitle": "支持所有主流平台，现在开始私密通讯。",
+    "android": "Android",
+    "ios": "iOS",
+    "macos": "macOS",
+    "windows": "Windows"
+  },
+  "faq": {
+    "title": "常见问题",
+    "q1": {
+      "question": "去中心化账户是如何工作的？",
+      "answer": "您的BSC钱包地址即是您的账户。无需注册 - 只需连接您的钱包或创建一个新钱包。您对自己的身份拥有完全所有权，由您的私钥保护。"
+    },
+    "q2": {
+      "question": "内置钱包可以做什么？",
+      "answer": "内置BSC钱包让您管理BNB和BEP-20代币，向联系人即时转账，创建和领取红包，查看交易记录 - 所有这些都无需离开应用。"
+    },
+    "q3": {
+      "question": "红包是如何工作的？",
+      "answer": "红包让您在聊天中与朋友分享加密货币。用BNB或代币创建红包，发送到聊天中，接收者可以点击领取。非常适合庆祝、打赏或社区奖励。"
+    },
+    "q4": {
+      "question": "我的消息和交易安全吗？",
+      "answer": "是的！消息使用OpenPGP进行端到端加密。钱包交易由BSC区块链保护。您的私钥永远不会离开您的设备，让您拥有完全控制权。"
+    },
+    "q5": {
+      "question": "支持哪些代币？",
+      "answer": "Sirr支持BNB（原生代币）和BSC上的所有BEP-20代币，包括USDT、USDC、BUSD等。您可以通过合约地址添加任何自定义BEP-20代币。"
+    }
+  },
+  "footer": {
+    "desc": "基于电子邮件的去中心化安全通讯应用。隐私为本。",
+    "product": "产品",
+    "resources": "资源",
+    "legal": "法律",
+    "documentation": "文档",
+    "blog": "博客",
+    "openSource": "开源"
+  },
+  "nodeRegistry": {
+    "title": "节点注册",
+    "subtitle": "在区块链上注册和管理您的邮件服务节点。成为去中心化Sirr网络的一部分。",
+    "connectWallet": "连接钱包",
+    "disconnect": "断开连接",
+    "notConnected": "未连接",
+    "connected": "已连接",
+    "stats": {
+      "totalNodes": "节点总数",
+      "approvedNodes": "已批准节点",
+      "pendingNodes": "待审批",
+      "myNodes": "我的节点"
+    },
+    "tabs": {
+      "browse": "浏览节点",
+      "register": "注册节点",
+      "myNodes": "我的节点"
+    },
+    "browse": {
+      "title": "已批准的服务节点",
+      "domain": "域名",
+      "server": "服务器",
+      "region": "地区",
+      "status": "状态",
+      "registered": "注册时间",
+      "actions": "操作",
+      "noNodes": "暂无已批准节点",
+      "beFirst": "成为第一个注册节点的人！"
+    },
+    "register": {
+      "title": "注册新节点",
+      "connectAlert": "请连接钱包以注册节点。",
+      "domain": "域名",
+      "domainPlaceholder": "例如：mailcoin.org",
+      "domainHint": "您邮件服务的唯一域名。注册后无法更改。",
+      "server": "邮件服务器",
+      "serverPlaceholder": "例如：mx1.mailcoin.org",
+      "serverHint": "邮件服务器地址（MX记录）。",
+      "region": "地区",
+      "regionPlaceholder": "例如：US-East, EU-West, Asia",
+      "regionHint": "服务器的地理位置。",
+      "pendingWarning": "注册后，您的节点将处于\"待审批\"状态，直到网络管理员批准。",
+      "submit": "注册节点",
+      "registering": "注册中..."
+    },
+    "myNodes": {
+      "title": "我注册的节点",
+      "connectAlert": "请连接钱包以查看您的节点。",
+      "noNodes": "暂无注册节点",
+      "noNodesDesc": "您还没有注册任何节点。",
+      "update": "更新",
+      "revoke": "撤销"
+    },
+    "updateModal": {
+      "title": "更新节点",
+      "cancel": "取消",
+      "submit": "更新"
+    },
+    "revokeModal": {
+      "title": "撤销节点",
+      "confirm": "确定要撤销此节点吗？此操作无法撤销。",
+      "cancel": "取消",
+      "submit": "撤销节点"
+    },
+    "messages": {
+      "registerSuccess": "节点注册成功！将由管理员审核。",
+      "updateSuccess": "节点更新成功！",
+      "revokeSuccess": "节点撤销成功。",
+      "error": "操作失败"
+    }
+  }
+}

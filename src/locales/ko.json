@@ -1,0 +1,169 @@
+{
+  "nav": {
+    "features": "기능",
+    "howItWorks": "사용 방법",
+    "faq": "FAQ",
+    "docs": "문서",
+    "download": "다운로드",
+    "nodeRegistry": "노드 등록"
+  },
+  "hero": {
+    "badge": "익명 · 보안 · 암호화 · 검열 저항",
+    "title": "Sirr은 통신을 추적 불가능하게 만들기 위해 존재합니다",
+    "subtitle": "Sirr은 익명성과 보안을 최우선 원칙으로 하는 암호화 통신 도구입니다! 우리는 \"통신의 자유\"와 \"사용자 주권\"을 옹호합니다!",
+    "downloadBtn": "지금 다운로드",
+    "learnMoreBtn": "자세히 알아보기",
+    "selfHostBtn": "노드 배포"
+  },
+  "features": {
+    "title": "왜 Sirr이 다른 메신저보다 안전한가요?",
+    "subtitle": "익명성과 보안을 위해 구축된 통신 아키텍처. Sirr은 단순한 \"앱\"이 아니라 탈중앙화된 암호화 통신 인프라입니다!",
+    "noserver": {
+      "title": "중앙 서버에 데이터를 저장하지 않음",
+      "desc": "WhatsApp이나 Telegram과 달리 Sirr은 중앙 서버가 없으며, 종료될 수 있는 핵심 노드가 없고, 사용자 정보나 통신 내용을 저장하지 않습니다."
+    },
+    "selfhost": {
+      "title": "누구나 통신 노드 운영 가능",
+      "desc": "궁극의 프라이버시 - 누구나 Sirr 통신 노드를 운영하여 진정한 분산 통신 네트워크를 형성할 수 있습니다."
+    },
+    "crossnode": {
+      "title": "원활한 노드 간 통신",
+      "desc": "다른 통신 노드의 사용자들이 서버 간에 자유롭고 원활하게 통신할 수 있습니다."
+    },
+    "opensource": {
+      "title": "오픈 소스 & 투명성",
+      "desc": "감사 가능한 오픈 소스 코드. 직접 보안을 검증하거나 커뮤니티 리뷰를 신뢰하세요."
+    },
+    "encryption": {
+      "title": "OpenPGP 기반 엔드투엔드 암호화",
+      "desc": "모든 채팅 내용은 OpenPGP로 암호화되며, 통신 당사자만 메시지를 복호화하고 읽을 수 있습니다."
+    },
+    "multidevice": {
+      "title": "멀티 디바이스 지원",
+      "desc": "Android, iOS, PC에서 Sirr 클라이언트를 다운로드하세요. 모든 콘텐츠가 자동으로 동기화됩니다."
+    },
+    "censorship": {
+      "title": "검열 저항 설계",
+      "desc": "네트워크에 단일 제어 지점이 없어 차단이나 모니터링이 어렵습니다."
+    }
+  },
+  "howItWorks": {
+    "title": "Sirr은 검증 가능한 보안을 갖추고 있습니다",
+    "content": "Sirr은 OpenPGP 암호화 표준을 사용하여 모든 사용자 통신에 엔드투엔드 암호화를 제공합니다."
+  },
+  "wallet": {
+    "title": "Sirr의 추가 기능 - 탈중앙화 지갑",
+    "content": "내장 탈중앙화 지갑. 사용자가 계정을 생성하면 탈중앙화 BNBChain 지갑이 자동으로 생성됩니다."
+  },
+  "download": {
+    "title": "지금 Sirr 받기",
+    "subtitle": "모든 주요 플랫폼에서 사용 가능. 오늘부터 프라이빗 메시징을 시작하세요.",
+    "android": "Android",
+    "ios": "iOS",
+    "macos": "macOS",
+    "windows": "Windows"
+  },
+  "faq": {
+    "title": "자주 묻는 질문",
+    "q1": {
+      "question": "탈중앙화 계정은 어떻게 작동하나요?",
+      "answer": "BSC 지갑 주소가 계정이 됩니다. 등록 불필요 - 지갑을 연결하거나 새로 만들기만 하면 됩니다."
+    },
+    "q2": {
+      "question": "내장 지갑으로 무엇을 할 수 있나요?",
+      "answer": "내장 BSC 지갑으로 BNB와 BEP-20 토큰을 관리하고 즉시 송금할 수 있습니다."
+    },
+    "q3": {
+      "question": "레드 패킷은 어떻게 작동하나요?",
+      "answer": "레드 패킷으로 채팅에서 친구들과 암호화폐를 공유할 수 있습니다."
+    },
+    "q4": {
+      "question": "메시지와 거래가 안전한가요?",
+      "answer": "네! 메시지는 OpenPGP로 엔드투엔드 암호화됩니다."
+    },
+    "q5": {
+      "question": "어떤 토큰이 지원되나요?",
+      "answer": "Sirr은 BNB와 BSC의 모든 BEP-20 토큰을 지원합니다."
+    }
+  },
+  "footer": {
+    "desc": "이메일 기반의 탈중앙화되고 안전한 메신저 앱. 프라이버시 설계.",
+    "product": "제품",
+    "resources": "리소스",
+    "legal": "법적 정보",
+    "documentation": "문서",
+    "blog": "블로그",
+    "openSource": "오픈 소스"
+  },
+  "nodeRegistry": {
+    "title": "노드 등록",
+    "subtitle": "블록체인에서 메일 서비스 노드를 등록하고 관리하세요. 탈중앙화 Sirr 네트워크의 일원이 되세요.",
+    "connectWallet": "지갑 연결",
+    "disconnect": "연결 해제",
+    "notConnected": "연결되지 않음",
+    "connected": "연결됨",
+    "stats": {
+      "totalNodes": "총 노드",
+      "approvedNodes": "승인된 노드",
+      "pendingNodes": "승인 대기",
+      "myNodes": "내 노드"
+    },
+    "tabs": {
+      "browse": "노드 찾아보기",
+      "register": "노드 등록",
+      "myNodes": "내 노드"
+    },
+    "browse": {
+      "title": "승인된 서비스 노드",
+      "domain": "도메인",
+      "server": "서버",
+      "region": "지역",
+      "status": "상태",
+      "registered": "등록일",
+      "actions": "작업",
+      "noNodes": "아직 승인된 노드가 없습니다",
+      "beFirst": "첫 번째 노드를 등록하세요!"
+    },
+    "register": {
+      "title": "새 노드 등록",
+      "connectAlert": "노드를 등록하려면 지갑을 연결하세요.",
+      "domain": "도메인",
+      "domainPlaceholder": "예: mailcoin.org",
+      "domainHint": "메일 서비스의 고유 도메인. 등록 후 변경할 수 없습니다.",
+      "server": "메일 서버",
+      "serverPlaceholder": "예: mx1.mailcoin.org",
+      "serverHint": "메일 서버 주소(MX 레코드).",
+      "region": "지역",
+      "regionPlaceholder": "예: US-East, EU-West, Asia",
+      "regionHint": "서버의 지리적 위치.",
+      "pendingWarning": "등록 후 노드는 네트워크 관리자의 승인을 받을 때까지 \"승인 대기\" 상태가 됩니다.",
+      "submit": "노드 등록",
+      "registering": "등록 중..."
+    },
+    "myNodes": {
+      "title": "내 등록된 노드",
+      "connectAlert": "노드를 보려면 지갑을 연결하세요.",
+      "noNodes": "등록된 노드 없음",
+      "noNodesDesc": "아직 노드를 등록하지 않았습니다.",
+      "update": "업데이트",
+      "revoke": "취소"
+    },
+    "updateModal": {
+      "title": "노드 업데이트",
+      "cancel": "취소",
+      "submit": "업데이트"
+    },
+    "revokeModal": {
+      "title": "노드 취소",
+      "confirm": "이 노드를 취소하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
+      "cancel": "취소",
+      "submit": "노드 취소"
+    },
+    "messages": {
+      "registerSuccess": "노드가 성공적으로 등록되었습니다! 관리자가 검토할 것입니다.",
+      "updateSuccess": "노드가 성공적으로 업데이트되었습니다!",
+      "revokeSuccess": "노드가 성공적으로 취소되었습니다.",
+      "error": "작업 실패"
+    }
+  }
+}
