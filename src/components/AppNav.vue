@@ -50,7 +50,7 @@ function closeMobileNav() {
         <li><router-link to="/#features">{{ t('nav.features') }}</router-link></li>
         <li><router-link to="/#how-it-works">{{ t('nav.howItWorks') }}</router-link></li>
         <li><router-link to="/#faq">{{ t('nav.faq') }}</router-link></li>
-        <li><a href="http://docs.mailcoin.org/" target="_blank">{{ t('nav.docs') }}</a></li>
+        <li><a href="http://docs.sirr.chat/" target="_blank">{{ t('nav.docs') }}</a></li>
         <li><router-link to="/node">{{ t('nav.nodeRegistry') }}</router-link></li>
         <li><router-link to="/#download" class="nav-cta">{{ t('nav.download') }}</router-link></li>
       </ul>
@@ -88,7 +88,7 @@ function closeMobileNav() {
       <router-link to="/#features" @click="closeMobileNav">{{ t('nav.features') }}</router-link>
       <router-link to="/#how-it-works" @click="closeMobileNav">{{ t('nav.howItWorks') }}</router-link>
       <router-link to="/#faq" @click="closeMobileNav">{{ t('nav.faq') }}</router-link>
-      <a href="http://docs.mailcoin.org/" target="_blank" @click="closeMobileNav">{{ t('nav.docs') }}</a>
+      <a href="http://docs.sirr.chat/" target="_blank" @click="closeMobileNav">{{ t('nav.docs') }}</a>
       <router-link to="/node" @click="closeMobileNav">{{ t('nav.nodeRegistry') }}</router-link>
       <router-link to="/#download" @click="closeMobileNav">{{ t('nav.download') }}</router-link>
     </div>
